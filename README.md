@@ -1,6 +1,9 @@
 # config_https_elasticsearch_client by NGINX with NODEJS
 
 use elasticsearch(2.3)(use http protocol) for client by https protocol
+#####	0, install NGINX and clone 
+		sudo apt-get update
+		sudo apt-get install nginx
 
 #####   1, npm install
 
