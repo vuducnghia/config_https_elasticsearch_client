@@ -49,4 +49,4 @@ use elasticsearch(2.3)(use http protocol) for client by https protocol
 
 #####	5, resart nginx :  sudo service nginx restart
 #####	6, run elasticsearch in your computer
-#####	6, node server.js  and https://demo:port
+#####	7, node server.js  and https://demo:port
