@@ -47,6 +47,6 @@ use elasticsearch(2.3)(use http protocol) for client by https protocol
 		cd /etc/
 		sudo nano hosts 	// add host custom   ex :     127.0.1.2    demo   (demo is new name host)
 
-#####	5, resart nginx :  sudo service nginx restart
+#####	5, restart nginx :  sudo service nginx restart
 #####	6, run elasticsearch in your computer
 #####	7, node server.js  and https://demo:port
