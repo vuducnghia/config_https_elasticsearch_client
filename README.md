@@ -13,7 +13,7 @@ use elasticsearch(2.3)(use http protocol) for client by https protocol
 
 #####	3, create file 
 
-#	sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/example 			// copy file default to example , then config file example (clean file then add code ):
+###	sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/example 			// copy file default to example , then config file example (clean file then add code ):
 	
 		server {
 			listen 8081;
@@ -40,8 +40,8 @@ use elasticsearch(2.3)(use http protocol) for client by https protocol
 
 		}
 	
-#	cd /etc/nginx/sites-enabled  
-#	sudo ln -s /etc/nginx/sites-available/example example   	// refer file example in sites-available to sites-enabled 
+###	cd /etc/nginx/sites-enabled  
+###	sudo ln -s /etc/nginx/sites-available/example example   	// refer file example in sites-available to sites-enabled 
 
 #####	4, custom host : 
 		cd /etc/
