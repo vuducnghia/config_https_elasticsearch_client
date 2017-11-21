@@ -1,0 +1,80 @@
+
+
+######################################################################### Cài đặt Nginx:  #####################################################################
+
+sudo apt-get update
+sudo apt-get install nginx
+
+#### config private key and certificate  	(https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04)
+
+1)	sudo mkdir /etc/nginx/ssl
+2)	Tạo chứng chỉ bảo mật SSL với thời hạn 365 ngày : 	
+		sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+
+
+#### Cài đặt Nginx để lắng nghe các cổng từ https client, sau đó điều hướng sang elasticsearch:
+
+1) 	tạo 1 file "example" bằng việc copy file default trong sites-available và sửa lại : 
+
+	sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/example
+	sudo nano /etc/nginx/sites-available/example
+
+2)	xóa code rồi paste đoạn code này, hoặc chỉnh sửa các phần tùy ý (giải thích các phần trong code default : https://mangmaytinh.net/threads/cau-hinh-nginx.49/)
+	
+	#	config http lắng nghe cổng 8081
+
+	server {
+		listen 8081;
+		server_name demo;	
+
+		location /{
+			proxy_pass http://192.168.1.4:9200;
+		}
+	}
+
+	#	config  https nghe cổng 8111. 
+
+	server {
+		listen 8111;		// custom port 
+		server_name demo;	// tùy chỉnh tên server
+
+		location /{
+	        	proxy_pass http://192.168.1.4:9200;    // port elasticsearch, ip elasticsearch default localhost, ex  http://localhost:9200
+		}
+
+		ssl on;
+		ssl_certificate /etc/nginx/ssl/server.crt;		// link key sau khi n123
+
+		ssl_certificate_key /etc/nginx/ssl/server.key;
+
+	}
+
+3)	Trong thư mục sites-available có nhiều file config chỉ được khai báo, để chạy được file nào trong sites-available thì config trong  /etc/nginx/sites-enabled:
+	
+	sudo ln -s /etc/nginx/sites-available/example /etc/nginx/sites-enabled/example 
+
+4)	restart Nginx: 
+		sudo service nginx restart
+5)	run : https://domain:port 		# ex : https://demo:8111
+
+
+
+###############################################################################   Config elasticsearch 2.3 in client by Javascript ################################
+
+1)	#https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/auth-reference.html
+	
+	// EX : 
+	var client = new $.es.Client({
+	  host:
+	  {
+	    protocol: 'https',
+	    host: 'demo',
+	    port: 8111,
+
+	  },
+	  ssl: {
+	    rejectUnauthorized: true
+	  }
+
+	});
+

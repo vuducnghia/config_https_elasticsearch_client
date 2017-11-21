@@ -20,8 +20,8 @@
             $.ui.autocomplete.prototype._renderMenu = function (ul, items) {
                 var self = this;
                 //table definitions
-                // ul.append("<table><thead><tr><th>Customer code</th><th>Company name</th><th>Company furigana</th><th>Url</th><th>Work type</th><th>Listed</th></tr></thead><tbody></tbody></table>");
-                ul.append("<table><thead><tr><th>Company name</th><th>Department</th><th>Position</th><th>Person in charge</th><th>Date exchange</th></tr></thead><tbody></tbody></table>");
+                ul.append("<table><thead><tr><th>Customer code</th><th>Company name</th><th>Company furigana</th><th>Url</th><th>Work type</th><th>Listed</th></tr></thead><tbody></tbody></table>");
+                // ul.append("<table><thead><tr><th>Company name</th><th>Department</th><th>Position</th><th>Person in charge</th><th>Date exchange</th></tr></thead><tbody></tbody></table>");
 
                 $.each(items, function (index, item) {
                     self._renderItemData(ul, ul.find("table tbody"), item);
@@ -33,8 +33,8 @@
             $.ui.autocomplete.prototype._renderItem = function (table, item) {
                 return $("<tr class='ui-menu-item' role='presentation'></tr>")
                     .data("item.autocomplete", item)
-                    // .append("<td >" + item._source.com_customer_code + "</td>" + "<td>" + item._source.com_company_name + "</td>" + "<td>" + item._source.com_company_furigana + "</td>"+ "<td>" + item._source.com_url + "</td>"+ "<td>" + item._source.worktype + "</td>"+ "<td>" + item._source.listed + "</td>")
-                    .append("<td>"+ item._source.name_company+"</td>"+"<td>"+ item._source.position+"</td>"+"<td>"+ item._source.date_exchange+"</td>")
+                    .append("<td >" + item._source.com_customer_code + "</td>" + "<td>" + item._source.com_company_name + "</td>" + "<td>" + item._source.com_company_furigana + "</td>"+ "<td>" + item._source.com_url + "</td>"+ "<td>" + item._source.worktype + "</td>"+ "<td>" + item._source.listed + "</td>")
+                    // .append("<td>"+ item._source.name_company+"</td>"+"<td>"+ item._source.position+"</td>"+"<td>"+ item._source.date_exchange+"</td>")
                     .appendTo(table);
             };
             
@@ -42,38 +42,38 @@
                 minLength: 1,
                 source: function (term, suggest) {
                     //   search theo Free style description
-                    // searchdata1($("input").val()).then(function (response) {
-                    //     var ar = [];
-                    //     var x = response.hits.hits;
-                    //     ar = x;
-                    //     console.log(x);
-                    //     if(x.length < 20){
-                    //         searchdata2($("input").val()).then(function (response1) {
-                    //             var x1 = response1.hits.hits;
-                    //             for(var i = 0; i < x1.length; ++i){
-                    //                 for(var j = 0; j < x.length; ++j){
-                    //                     if(x1[i] == x[j])
-                    //                         break;
-                    //                     else if(j == x.length-1)
-                    //                         ar.push(x1[i]);
-                    //                 }
-                    //             }
-                    //             suggest(ar);
-                    //         })
-                    //     }
-                    //     else
-                    //     suggest(ar);
-                    // })
-
-                    // search theo  Reference namecard
-
-                    searchdata3($("input").val()).then(function (response) {
+                    searchdata1($("input").val()).then(function (response) {
                         var ar = [];
                         var x = response.hits.hits;
                         ar = x;
                         console.log(x);
+                        if(x.length < 20){
+                            searchdata2($("input").val()).then(function (response1) {
+                                var x1 = response1.hits.hits;
+                                for(var i = 0; i < x1.length; ++i){
+                                    for(var j = 0; j < x.length; ++j){
+                                        if(x1[i] == x[j])
+                                            break;
+                                        else if(j == x.length-1)
+                                            ar.push(x1[i]);
+                                    }
+                                }
+                                suggest(ar);
+                            })
+                        }
+                        else
                         suggest(ar);
                     })
+
+                    // search theo  Reference namecard
+
+                    // searchdata3($("input").val()).then(function (response) {
+                    //     var ar = [];
+                    //     var x = response.hits.hits;
+                    //     ar = x;
+                    //     console.log(x);
+                    //     suggest(ar);
+                    // })
                 },
                 
                 focus: function (event, ui) {
